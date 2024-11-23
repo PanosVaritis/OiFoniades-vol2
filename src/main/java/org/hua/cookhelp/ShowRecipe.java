@@ -3,7 +3,8 @@ package org.hua.cookhelp;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  *
@@ -49,6 +50,8 @@ public class ShowRecipe implements Recipe {
         
         for (int i = 0;i < materials.size();i++)
             System.out.println ("\t"+materials.get(i));
+        
+        System.out.println ("\nTotal time:");
         
         System.out.println ("\nSteps:");
         
