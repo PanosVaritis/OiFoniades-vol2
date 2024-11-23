@@ -1,5 +1,5 @@
 
-package org.hua.testregex;
+package org.hua.cookhelp;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
