@@ -1,6 +1,6 @@
 package org.hua.cookhelp;
 
-public class Ingredient {
+public class Ingredient{
     
     private String name;
     private double quantity;
@@ -28,15 +28,7 @@ public class Ingredient {
         this.quantity += quantity;
     }
 
-    public void setName(String name){
-        this.name = name;
-    }
-
-    public void setUnit(String unit){
-        this.unit = unit;
-    }
-
     public void convertMeasurements(){
-
+        //TODO
     }
 }

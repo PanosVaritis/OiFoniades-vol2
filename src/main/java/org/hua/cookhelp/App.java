@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +19,9 @@ public class App {
 
         ArrayList<String[]> matches = new ArrayList<>();
         String filePath = args[0];
+        
+        List<Recipe> recipes = new ArrayList<>();
+
         
         
 

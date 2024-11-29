@@ -6,16 +6,23 @@ import java.util.List;
 public class ShoppingList {
     private List<Recipe> recipes;
 
-    public ShoppingList(){
-        recipes = new ArrayList<>();
+    public ShoppingList(List<Recipe> recipes){
+        this.recipes = new ArrayList<>();
+        
+        for(Recipe r : recipes){
+            addRecipe(r);
+        }
     }
 
     public void addRecipe(Recipe recipe){
-        recipes.add(recipe);
+        this.recipes.add(recipe);
     }
 
     public void calculateIngredients(){
-       //TODO
+       for( Recipe r : this.recipes ){
+        r.getIngredients();
+        //TODO
+       }
     }
 
 }
