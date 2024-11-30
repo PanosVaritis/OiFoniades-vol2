@@ -19,7 +19,7 @@ public class ShowShoppingList implements Recipe{
     }
     
     @Override
-    public void analyseRecipe(String[] array) {
+    public void readRecipe(String[] array) {
         
         if (array.length == 1)
             throw new IllegalArgumentException ("Waited more parameters took only one");

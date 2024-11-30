@@ -17,15 +17,14 @@ public class App {
         
         if (args[0].trim().equals("-list")){
             
-            System.out.println ("Very good. No you will be redirected to class ShowShoppingList!!!");
             Recipe s = new  ShowShoppingList();
-            s.analyseRecipe(args);
+            s.readRecipe(args);
         
         }else if (args[0].endsWith(".cook")){
             
-            System.out.println ("Good you will now be redirected to class ShowRecipe");
             Recipe s = new ShowRecipe();
-            s.analyseRecipe(args);
+            s.readRecipe(args);
+            s.printRecipe();
         
         }else {
             
@@ -33,12 +32,6 @@ public class App {
         
         }
         
-        
-        
-        //for testing purposes
-        for (int i = 0;i <args.length;i++){
-            System.out.println (args[i]);
-        }
         
         
         
