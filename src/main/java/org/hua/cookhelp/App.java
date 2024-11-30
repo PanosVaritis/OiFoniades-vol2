@@ -48,6 +48,11 @@ public class App {
 
         System.out.println("Total Matches Found: " + matches.size());
     
+        
+        
+        
+        
+        
         if (args.length == 0)
             throw new IllegalArgumentException ("Command line parameters are nesecasry");
 
