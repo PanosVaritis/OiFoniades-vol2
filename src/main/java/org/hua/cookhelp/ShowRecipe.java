@@ -47,7 +47,12 @@ public class ShowRecipe implements Recipe {
             System.out.println ("  "+tools.get(i));
         
         convertToMinutes();
-        System.out.println ("\nTotal time: "+calculateTotalTime()+" minutes");
+        System.out.println ("\nTotal time:\n  "+calculateTotalTime()+" minutes\n");
+        
+//        concatSteps();
+//        System.out.println ("Steps: ");
+//        for (int i = 0;i < steps.size();i++)
+//            System.out.println ((i+1)+". "+steps.get(i));
         
     }
     
@@ -60,11 +65,12 @@ public class ShowRecipe implements Recipe {
           //In this part the file will be read and it's content will be stored in the appropriate array
         //From this part and down we are sure, that the user has given a SINGLE commnad line argument with extension .cook
         
-        
           
         try (BufferedReader br = new BufferedReader(new FileReader(array[0]))){
             String line;
             while ((line = br.readLine()) != null){
+                
+                steps.add(line);
                 
                 analyseIngredient(line);
 
@@ -112,7 +118,8 @@ public class ShowRecipe implements Recipe {
     
     private void analyseCookTool(String line){
         
-        String regexForTool = "#([α-ωΑ-Ωa-zA-Z]+(?: [α-ωΑ-Ωa-zA-Z]+)*)\\{\\}";
+        String regexForTool = "#([α-ωΑ-Ωa-zA-Zά-ώ]+(?: [α-ωΑ-Ωa-zA-Zά-ώ]+)*)(?:\\{\\})?";
+
         Pattern patternForTool  = Pattern.compile(regexForTool);
         
         Matcher matcherTool = patternForTool.matcher(line);
@@ -165,6 +172,16 @@ public class ShowRecipe implements Recipe {
     
     private void fixCookTool(String match){
         
+        if (!(match.contains("{") && match.contains("}")))
+            match = match.split(" ")[0];
+        
+        match  = match.substring(1);
+        
+        if (match.contains("{}")){
+            match = match.replace("{}", " ");
+        }
+            
+        tools.add(match);
     }
     
     
@@ -200,6 +217,29 @@ public class ShowRecipe implements Recipe {
                 time.set(i, minutes + " minutes");
             }
         }
+        
+    }
+    
+    private void concatSteps(){
+        StringBuilder concat = new StringBuilder();
+        
+        for (int i = 0;i < steps.size();i++){
+            String str = steps.get(i);
+            
+            if (str.isEmpty()){
+                if (concat.length() > 0){
+                    steps.set(i - 1, concat.toString());
+                    concat.setLength(0);
+                }
+            }else {
+                if (concat.length() > 0){
+                    concat.append(" ");
+                }
+                concat.append(str);
+            }
+        }
+        if (concat.length() > 0)
+            steps.set(steps.size() - 1, concat.toString());
         
     }
 

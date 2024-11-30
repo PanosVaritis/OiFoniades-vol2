@@ -8,7 +8,7 @@ package org.hua.cookhelp;
 public class App {
 
     public static void main(String[] args) {
-        System.out.println ("Welcome to the cook helping machine!!!");
+        System.out.println ("Welcome to the cook helping machine!!!\n");
         
         
         if (args.length == 0)
