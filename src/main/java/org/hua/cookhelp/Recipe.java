@@ -1,3 +1,4 @@
+
 package org.hua.cookhelp;
 
 import java.util.Collections;
@@ -37,6 +38,14 @@ public class Recipe {
     public String getName(){
         return name;
     }
+
+    public double calculateIngredients(){
+        double totalQuantity = 0.0;
+        for( Ingredient i : this.ingredients.values()){
+            totalQuantity =+ i.getQuantity();
+        }
+        return totalQuantity;
+    } 
 
     public Set<CookingTool> getCookingTools() {
         return Collections.unmodifiableSet(cookingTools);

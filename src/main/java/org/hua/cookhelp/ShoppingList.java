@@ -4,25 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingList {
-    private List<Recipe> recipes;
+    private List<Recipe> recipes = new ArrayList<>();
 
-    public ShoppingList(List<Recipe> recipes){
-        this.recipes = new ArrayList<>();
-        
-        for(Recipe r : recipes){
-            addRecipe(r);
-        }
-    }
 
     public void addRecipe(Recipe recipe){
-        this.recipes.add(recipe);
+        recipes.add(recipe);
     }
 
-    public void calculateIngredients(){
-       for( Recipe r : this.recipes ){
-        r.getIngredients();
-        //TODO
-       }
+    public double calculateIngredients(){
+        double totalQuantity = 0.0;
+        for( Recipe r : this.recipes ){
+            totalQuantity =+ r.calculateIngredients();
+        }
+        return totalQuantity;
     }
 
 }

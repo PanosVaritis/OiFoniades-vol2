@@ -6,10 +6,13 @@ public class Ingredient{
     private double quantity;
     private String unit;
 
-    public Ingredient(String name, double quantity, String unit){
+    public Ingredient(String name, double quantity){
         this.name = name;
         this.quantity = quantity;
-        this.unit = unit;
+    }
+
+    public Ingredient(){
+        
     }
 
     public String getName(){
@@ -18,6 +21,10 @@ public class Ingredient{
 
     public String getUnit(){
         return unit;
+    }
+
+    public void setUnit(String unit){
+        this.unit = unit;
     }
 
     public double getQuantity(){
