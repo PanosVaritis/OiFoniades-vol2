@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 
 public class Recipe {
     private String name;
-    private String description;
     private Set<CookingTool> cookingTools = new HashSet<>();
     private Map<String, Ingredient> ingredients = new HashMap<>();
     private List<Step> steps = new ArrayList<>();
@@ -99,7 +98,7 @@ public class Recipe {
             Pattern timePattern = Pattern.compile("~\\{([^%\\}]+)%([^\\}]+)\\}");
             Matcher matcher = timePattern.matcher(s);
 
-            while (matcher.find()) {
+            if (matcher.find()) {
                 String timeStr = matcher.group(1);
                 String timeUnit = matcher.group(2);
             
@@ -110,6 +109,9 @@ public class Recipe {
                 } catch (NumberFormatException e) {
                     // Χειρισμός εξαίρεσης
                 }
+            }else{
+                Step step = new Step(s);
+                addStep(step);
             }
         }
     }
@@ -122,8 +124,8 @@ public class Recipe {
         return Collections.unmodifiableSet(cookingTools);
     }
 
-    public HashMap<String, Ingredient> getIngredients() {
-        return (HashMap<String, Ingredient>) Collections.unmodifiableMap(ingredients);
+    public Map<String, Ingredient> getIngredients() {
+        return ingredients;
     }
 
     public List<Step> getTotalTime() {
@@ -136,13 +138,17 @@ public class Recipe {
         for(Map.Entry<String, Ingredient> entry : ingredients.entrySet()){
             sb.append(" ").append(entry.getValue().toString()).append("\n");
         }
+        sb.append("\n");
         sb.append("Σκεύη: \n");
         for(CookingTool c : cookingTools){
             sb.append(" ").append(c.toString()).append("\n");
         }
+        sb.append("\n");
+
         sb.append("Συνολική ώρα: \n");
         sb.append(" ").append(calculateTotalTimeDuration()).append("\n");
-
+        sb.append("\n");
+        
         sb.append("Βήματα: \n");
         int counter = 1;
         for(Step s : steps){

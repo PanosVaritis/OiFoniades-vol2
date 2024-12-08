@@ -11,6 +11,12 @@ public class Step {
         this.timeUnit = timeUnit;
     }
 
+    public Step(String description){
+        this.description = description;
+        this.timeDuration = 0;
+        this.timeUnit = null;
+    }
+
     public double getTimeDuration() {
         return timeDuration;
     }

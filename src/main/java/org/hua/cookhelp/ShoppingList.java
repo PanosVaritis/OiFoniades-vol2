@@ -13,7 +13,8 @@ public class ShoppingList {
         recipes.add(recipe);
     }
 
-    public Map<String, Ingredient> calculateIngredients() {
+
+    public void calculateIngredients() {
         for (Recipe r : recipes) {
 
             for (Map.Entry<String, Ingredient> e : r.getIngredients().entrySet()) {
@@ -23,12 +24,20 @@ public class ShoppingList {
                 if (totalIngredients.containsKey(ingredientName)) {
                     totalIngredients.get(ingredientName).addQuantity(ingredient.getQuantity());
                 } else {
-                    totalIngredients.put(ingredientName, new Ingredient(ingredient.getName(), ingredient.getQuantity()));
+                    totalIngredients.put(ingredientName, ingredient);
                 }
             }
         }
+    }
 
-        return totalIngredients;
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Υλικά: \n");
+        for(Map.Entry<String, Ingredient> entry : totalIngredients.entrySet()){
+            sb.append(" ").append(entry.getValue().toString()).append("\n");
+        }
+        return sb.toString();
+
     }
 }
 

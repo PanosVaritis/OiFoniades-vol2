@@ -40,10 +40,12 @@ public class Ingredient{
 
     @Override
     public String toString() {
-        if(unit != null){       
-            return name + " " + quantity + " " + unit;
-        }else{
-            return name + " " + quantity;
+        String formattedQuantity = (quantity % 1 == 0) ? String.valueOf((int) quantity) : String.valueOf(quantity);
+
+        if (unit != null) {       
+            return name + " " + formattedQuantity + " " + unit;
+        } else {
+            return name + " " + formattedQuantity;
         }
     }
 
