@@ -6,21 +6,18 @@ public class Ingredient{
     private double quantity;
     private String unit;
 
-    public Ingredient(String name, double quantity){
+    public Ingredient(String name, double quantity, String unit){
         this.name = name;
         this.quantity = quantity;
+        this.unit = unit;
     }
 
-    public Ingredient(){
-        
+    public Ingredient(String name, double quantity){
+        this(name,quantity,null);
     }
 
     public String getName(){
         return name;
-    }
-
-    public String getUnit(){
-        return unit;
     }
 
     public void setUnit(String unit){
@@ -35,7 +32,20 @@ public class Ingredient{
         this.quantity += quantity;
     }
 
+    
+
     public void convertMeasurements(){
         //TODO
     }
+
+    @Override
+    public String toString() {
+        if(unit != null){       
+            return name + " " + quantity + " " + unit;
+        }else{
+            return name + " " + quantity;
+        }
+    }
+
+
 }

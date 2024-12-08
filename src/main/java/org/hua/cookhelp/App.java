@@ -9,6 +9,8 @@ package org.hua.cookhelp;
 //import java.util.regex.Matcher;
 //import java.util.regex.Pattern;
 
+import parser.RecipeReader;
+
 /**
  *
  * @author panos
@@ -17,26 +19,36 @@ public class App {
 
     public static void main(String[] args) {
 
+
+        String filePath = "pancakes.cook";
+
+        RecipeReader recipeReader = new RecipeReader();
+
+        String fileContent = recipeReader.readCookFile(filePath);
+        System.out.println(fileContent);
+
+        Recipe recipe = new Recipe(filePath,fileContent);
+        System.out.println(recipe);
         
-        if (args.length == 0)
-            throw new IllegalArgumentException ("Command line parameters are nesecasry");
+        // if (args.length == 0)
+        //     throw new IllegalArgumentException ("Command line parameters are nesecasry");
 
-        if (args[0].trim().equals("-list")){
+        // if (args[0].trim().equals("-list")){
 
-            System.out.println ("Very good. No you will be redirected to class ShowShoppingList!!!");
+        //     System.out.println ("Very good. No you will be redirected to class ShowShoppingList!!!");
         
 
-        }else if (args[0].endsWith(".cook")){
+        // }else if (args[0].endsWith(".cook")){
 
-            System.out.println ("Good you will now be redirected to class ShowRecipe");
+        //     System.out.println ("Good you will now be redirected to class ShowRecipe");
             
-            Extractor ex = new Extractor();
-            ex.readFile(args);
-        }else {
+        //     Extractor ex = new Extractor();
+        //     ex.readFile(args);
+        // }else {
 
-            throw new IllegalArgumentException ("Incorrect command line arguments were passed.....");
+        //     throw new IllegalArgumentException ("Incorrect command line arguments were passed.....");
 
-        }
+        // }
 
     }
 }
