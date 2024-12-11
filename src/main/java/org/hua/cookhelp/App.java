@@ -19,12 +19,10 @@ import parser.RecipeReader;
 public class App {
 
     public static void main(String[] args) {
-
         if (args.length == 0){
             throw new IllegalArgumentException ("Command line arguments are nesecasry");
         }
         if (args[0].trim().equals("-list")){
-            System.out.println ("Redirected to Shopping List Function: ");
 
             ShoppingList shoppingList = new ShoppingList();
             RecipeReader recipeReader = new RecipeReader();
@@ -39,7 +37,6 @@ public class App {
             System.out.println(shoppingList);
 
         }else if (args.length == 1 && args[0].endsWith(".cook")){
-            System.out.println ("Redirected to Recipe Function:");
 
             RecipeReader recipeReader = new RecipeReader();
             String fileContent = recipeReader.readCookFile(args[0]);
@@ -47,6 +44,8 @@ public class App {
             System.out.println(recipe);
 
         }else if (args.length > 1 && args[0].endsWith(".cook")){
+            throw new IllegalArgumentException ("Too many arguments");
+        }else{
             throw new IllegalArgumentException ("Incorrect arguments");
         }
 

@@ -49,7 +49,7 @@ public class Recipe {
         for(Step s : steps){
             double timeDuration = s.getTimeDuration();
             totalTimeDuration += timeDuration;
-        }
+        }        
         return totalTimeDuration;
     }
 
@@ -146,7 +146,12 @@ public class Recipe {
         sb.append("\n");
 
         sb.append("Συνολική ώρα: \n");
-        sb.append(" ").append(calculateTotalTimeDuration()).append("\n");
+        double totalTimeDuration = calculateTotalTimeDuration();
+        if (totalTimeDuration == (int) totalTimeDuration) {
+            sb.append(" ").append((int) totalTimeDuration).append(" min").append("\n");
+        } else {
+            sb.append(" ").append(totalTimeDuration).append(" min").append("\n");
+        }   
         sb.append("\n");
         
         sb.append("Βήματα: \n");
