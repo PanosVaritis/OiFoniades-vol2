@@ -22,7 +22,7 @@ public class ShoppingList {
                 Ingredient ingredient = e.getValue();
 
                 if (totalIngredients.containsKey(ingredientName)) {
-                    totalIngredients.get(ingredientName).addQuantity(ingredient.getQuantity());
+                    totalIngredients.get(ingredientName).addQuantity(ingredient.getQuantity(),ingredient.getUnit());
                 } else {
                     totalIngredients.put(ingredientName, ingredient);
                 }

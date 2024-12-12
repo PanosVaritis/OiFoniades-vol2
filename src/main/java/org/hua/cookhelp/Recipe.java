@@ -18,9 +18,9 @@ import java.util.regex.Pattern;
 
 public class Recipe {
     private String name;
-    private Set<CookingTool> cookingTools = new HashSet<>();
-    private Map<String, Ingredient> ingredients = new HashMap<>();
-    private List<Step> steps = new ArrayList<>();
+    private Set<CookingTool> cookingToolList = new HashSet<>();
+    private Map<String, Ingredient> ingredientList = new HashMap<>();
+    private List<Step> stepList = new ArrayList<>();
 
 
     public Recipe(String name,String description){
@@ -29,24 +29,25 @@ public class Recipe {
     }
 
     private void addIngredient(Ingredient ingredient){
-        if (ingredients.containsKey(ingredient.getName())){
-            ingredients.get(ingredient.getName()).addQuantity(ingredient.getQuantity());
+        ingredient.convertMeasurements();
+        if (ingredientList.containsKey(ingredient.getName())){
+            ingredientList.get(ingredient.getName()).addQuantity(ingredient.getQuantity(), ingredient.getUnit());
         }else {
-            ingredients.put(ingredient.getName(), ingredient);
+            ingredientList.put(ingredient.getName(), ingredient);
         }
     }
 
     private void addStep(Step step){
-        steps.add(step);
+        stepList.add(step);
     }
 
     private void addCookingTool(CookingTool cookingTool){
-        cookingTools.add(cookingTool);
+        cookingToolList.add(cookingTool);
     }
 
     public double calculateTotalTimeDuration(){
         double totalTimeDuration = 0;
-        for(Step s : steps){
+        for(Step s : stepList){
             double timeDuration = s.getTimeDuration();
             totalTimeDuration += timeDuration;
         }        
@@ -116,31 +117,32 @@ public class Recipe {
         }
     }
 
+
     public String getName(){
         return name;
     }
 
     public Set<CookingTool> getCookingTools() {
-        return Collections.unmodifiableSet(cookingTools);
+        return Collections.unmodifiableSet(cookingToolList);
     }
 
     public Map<String, Ingredient> getIngredients() {
-        return ingredients;
+        return ingredientList;
     }
 
     public List<Step> getTotalTime() {
-        return Collections.unmodifiableList(steps);
+        return Collections.unmodifiableList(stepList);
     }
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Υλικά: \n");
-        for(Map.Entry<String, Ingredient> entry : ingredients.entrySet()){
+        for(Map.Entry<String, Ingredient> entry : ingredientList.entrySet()){
             sb.append(" ").append(entry.getValue().toString()).append("\n");
         }
         sb.append("\n");
         sb.append("Σκεύη: \n");
-        for(CookingTool c : cookingTools){
+        for(CookingTool c : cookingToolList){
             sb.append(" ").append(c.toString()).append("\n");
         }
         sb.append("\n");
@@ -156,7 +158,7 @@ public class Recipe {
         
         sb.append("Βήματα: \n");
         int counter = 1;
-        for(Step s : steps){
+        for(Step s : stepList){
             sb.append(" ").append(counter).append(". ").append(s.toString()).append("\n");
             counter ++;
         }
