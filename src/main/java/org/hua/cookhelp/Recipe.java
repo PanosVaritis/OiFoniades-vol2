@@ -21,7 +21,7 @@ public class Recipe {
     private Set<CookingTool> cookingToolList = new HashSet<>();
     private Map<String, Ingredient> ingredientList = new HashMap<>();
     private List<Step> stepList = new ArrayList<>();
-
+    private HashMap<String, Double> totalOddUnits = new HashMap<>();
 
     public Recipe(String name,String description){
             this.name = name;
@@ -32,10 +32,16 @@ public class Recipe {
         ingredient.convertMeasurements();
         if (ingredientList.containsKey(ingredient.getName())){
             ingredientList.get(ingredient.getName()).addQuantity(ingredient.getQuantity(), ingredient.getUnit());
-        }else {
+        }else{
             ingredientList.put(ingredient.getName(), ingredient);
+            if (!ingredient.isStandardUnit(ingredient.getUnit())) {
+                ingredient.addOddUnits(ingredient.getQuantity(), ingredient.getUnit());
+                ingredient.setQuantity(0);
+                ingredient.setUnit("");
+            }
         }
     }
+
 
     private void addStep(Step step){
         stepList.add(step);
@@ -60,8 +66,10 @@ public class Recipe {
         extractStep(description);
     }
 
+
     private void extractIngredients(String description) {
-        Pattern ingredientPattern = Pattern.compile("@([^\\{\\s]+)(\\{([^%\\}]+)%?([^\\}]*)\\})?");
+        Pattern ingredientPattern = Pattern.compile("@([^\\\\{]+)(\\{([^%\\}]+)%?([^\\}]*)\\})?");
+            // Pattern ingredientPattern = Pattern.compile("@([^\\{\\s]+)(\\{([^%\\}]+)%?([^\\}]*)\\})?");
         Matcher matcher = ingredientPattern.matcher(description);
 
         while (matcher.find()) {
@@ -78,7 +86,12 @@ public class Recipe {
                 }
             }
 
-            Ingredient ingredient = new Ingredient(name, quantity, unit);
+            Ingredient ingredient;
+            if (unit == null || unit.isEmpty()) {
+                ingredient = new Ingredient(name, quantity);
+            } else {
+                ingredient = new Ingredient(name, quantity, unit);
+            }
             addIngredient(ingredient);
         }
     }
@@ -159,7 +172,7 @@ public class Recipe {
         sb.append("Βήματα: \n");
         int counter = 1;
         for(Step s : stepList){
-            sb.append(" ").append(counter).append(". ").append(s.toString()).append("\n");
+            sb.append(" ").append(counter).append(". ").append(s.toString()).append("\n").append("\n");
             counter ++;
         }
         return sb.toString();

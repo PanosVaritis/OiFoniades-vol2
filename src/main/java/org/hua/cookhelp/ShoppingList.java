@@ -6,24 +6,25 @@ import java.util.List;
 import java.util.Map;
 
 public class ShoppingList {
-    private List<Recipe> recipes = new ArrayList<>();
+    private List<Recipe> recipeList = new ArrayList<>();
     private Map<String, Ingredient> totalIngredients = new HashMap<>();
 
     public void addRecipe(Recipe recipe){
-        recipes.add(recipe);
+        recipeList.add(recipe);
     }
 
 
     public void calculateIngredients() {
-        for (Recipe r : recipes) {
-
-            for (Map.Entry<String, Ingredient> e : r.getIngredients().entrySet()) {
-                String ingredientName = e.getKey();
-                Ingredient ingredient = e.getValue();
-
+        for (Recipe r : recipeList) {
+            for (Map.Entry<String, Ingredient> entry : r.getIngredients().entrySet()) {
+                String ingredientName = entry.getKey();
+                Ingredient ingredient = entry.getValue();
                 if (totalIngredients.containsKey(ingredientName)) {
                     totalIngredients.get(ingredientName).addQuantity(ingredient.getQuantity(),ingredient.getUnit());
-                } else {
+                    for (Map.Entry<String, Double> oddUnitEntry : ingredient.getOddUnits().entrySet()) {
+                        totalIngredients.get(ingredientName).addOddUnits(oddUnitEntry.getValue(), oddUnitEntry.getKey());
+                    }
+                } else {    
                     totalIngredients.put(ingredientName, ingredient);
                 }
             }

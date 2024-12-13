@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class Ingredient{
 
-    private HashMap<String, Double> oddQuantities = new HashMap<>();
+    private HashMap<String, Double> oddUnits = new HashMap<>();
     private String name;
     private double quantity;
     private String unit;
@@ -18,7 +18,9 @@ public class Ingredient{
     }
 
     public Ingredient(String name, double quantity){
-        this(name,quantity,null);
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = "";
     }
 
     public String getName(){
@@ -33,6 +35,10 @@ public class Ingredient{
         return unit;
     }
 
+    public Map<String, Double> getOddUnits() {
+        return oddUnits;
+    }
+
     public void setQuantity(double quantity){
         this.quantity = quantity;
     }
@@ -41,36 +47,23 @@ public class Ingredient{
         return quantity;
     }
 
-    // public void addQuantity(double quantity, String unit) {
-    //     if (unit == null || isStandardUnit(unit)) {
-    //         // If the unit is null (bulk) or standard, add to the main quantity
-    //         this.quantity += quantity;
-    //         if (unit != null) {
-    //             this.unit = unit; // Set the unit if it's standard
-    //         }
-    //     } else if (this.unit == null) {
-    //         // If no standard unit has been set, add this odd quantity to the main quantity
-    //         // since it will be the first to be added
-    //         this.quantity = quantity;
-    //         this.unit = unit.toLowerCase();
-    //     } else {
-    //         // If it's an odd unit and the main unit is already set, merge it with odd quantities
-    //         oddQuantities.merge(unit.toLowerCase(), quantity, Double::sum);
-    //     }
-    // }
-    
-
     public void addQuantity(double quantity, String unit) {
-        
-        if (isStandardUnit(unit) || this.unit.equalsIgnoreCase(unit)) {
+        if (unit == null|| isStandardUnit(unit) || this.unit.equalsIgnoreCase(unit)) {
             this.quantity += quantity;
+            if (unit != null ) {
+                this.unit = unit;
+            }
         }else {
-            oddQuantities.merge(unit.toLowerCase(), this.quantity, Double::sum);
+           addOddUnits(quantity, unit);
         }
     }
 
-    private boolean isStandardUnit(String unit) {
-        final Set<String> standardUnits = Set.of("ml","gr");
+    public void addOddUnits(double quantity, String unit){
+        oddUnits.merge(unit.toLowerCase(), quantity, Double::sum);
+    }
+
+    public boolean isStandardUnit(String unit) {
+        final Set<String> standardUnits = Set.of("ml","gr","");
         return standardUnits.contains(unit.toLowerCase());
     }
 
@@ -101,8 +94,8 @@ public class Ingredient{
             sb.append(formattedQuantity);
         }
 
-        if(oddQuantities != null){
-            for(Map.Entry<String, Double> entry : oddQuantities.entrySet()){
+        if(oddUnits != null){
+            for(Map.Entry<String, Double> entry : oddUnits.entrySet()){
                 sb.append(" και ").append(entry.getValue().toString()).append(" ").append(entry.getKey());
             }
         }
