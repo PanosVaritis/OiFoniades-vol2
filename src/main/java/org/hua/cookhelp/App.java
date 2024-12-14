@@ -23,7 +23,16 @@ public class App {
             throw new IllegalArgumentException ("Command line arguments are nesecasry");
         }
         if (args[0].trim().equals("-list")){
+            
+            if (args.length == 2)
+                throw new IllegalArgumentException ("To the run the -list you must provide more that one files");
 
+
+            for (int i = 1;i < args.length;i++){
+                if (!(args[i].endsWith(".cook")))
+                    throw new IllegalArgumentException ("The sufxix of all the command line parameters must be the same!!");
+            }
+            
             ShoppingList shoppingList = new ShoppingList();
             RecipeReader recipeReader = new RecipeReader();
 
