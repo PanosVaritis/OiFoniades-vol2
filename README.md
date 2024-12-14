@@ -13,7 +13,7 @@
 3. Build the project using Maven:
 
     ```bash
-    mvn clean install
+    mvn clean package
     ```
 
 4. Show recipe:
