@@ -21,7 +21,6 @@ public class Recipe {
     private Set<CookingTool> cookingToolList = new HashSet<>();
     private Map<String, Ingredient> ingredientList = new HashMap<>();
     private List<Step> stepList = new ArrayList<>();
-    private HashMap<String, Double> totalOddUnits = new HashMap<>();
 
     public Recipe(String name,String description){
             this.name = name;
@@ -69,7 +68,6 @@ public class Recipe {
 
     private void extractIngredients(String description) {
         Pattern ingredientPattern = Pattern.compile("@([^\\\\{]+)(\\{([^%\\}]+)%?([^\\}]*)\\})?");
-            // Pattern ingredientPattern = Pattern.compile("@([^\\{\\s]+)(\\{([^%\\}]+)%?([^\\}]*)\\})?");
         Matcher matcher = ingredientPattern.matcher(description);
 
         while (matcher.find()) {
@@ -145,6 +143,18 @@ public class Recipe {
         return Collections.unmodifiableList(stepList);
     }
 
+    private void fixCookingTool (String match){
+        if (!(match.contains("{") && match.contains("}")))
+            match = match.split(" ")[0];
+            
+        match  = match.substring(1);
+        if (match.contains("{}")){
+            match = match.replace("{}", " ");
+        }
+        CookingTool cookingTool = new CookingTool(match);
+            addCookingTool(cookingTool);
+    }
+
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("Υλικά: \n");
@@ -177,20 +187,5 @@ public class Recipe {
     }
     
     
-    private void fixCookingTool (String match){
-        
-        if (!(match.contains("{") && match.contains("}")))
-            match = match.split(" ")[0];
-        
-        match  = match.substring(1);
-        
-        if (match.contains("{}")){
-            match = match.replace("{}", " ");
-        }
-        
-        CookingTool cookingTool = new CookingTool(match);
-            addCookingTool(cookingTool);
-        
-        
-    }
+    
 }

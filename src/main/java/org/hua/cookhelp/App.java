@@ -20,7 +20,7 @@ public class App {
 
     public static void main(String[] args) {
         if (args.length == 0){
-            throw new IllegalArgumentException ("Command line arguments are nesecasry");
+            throw new IllegalArgumentException ("Command line arguments are necessary");
         }
         if (args[0].trim().equals("-list")){
             
@@ -30,7 +30,7 @@ public class App {
 
             for (int i = 1;i < args.length;i++){
                 if (!(args[i].endsWith(".cook")))
-                    throw new IllegalArgumentException ("The sufxix of all the command line parameters must be the same!!");
+                    throw new IllegalArgumentException ("The suffix of all the command line parameters must be the same!!");
             }
             
             ShoppingList shoppingList = new ShoppingList();
@@ -57,17 +57,5 @@ public class App {
         }else{
             throw new IllegalArgumentException ("Incorrect arguments");
         }
-
-
-        // String filePath = "pancakes.cook";
-
-        // RecipeReader recipeReader = new RecipeReader();
-
-        // String fileContent = recipeReader.readCookFile(filePath);
-
-        // Recipe recipe = new Recipe(filePath,fileContent);
-        // System.out.println(recipe);
-
-
     }
 }

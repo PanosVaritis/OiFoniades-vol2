@@ -24,7 +24,7 @@ public class ShoppingList {
                     for (Map.Entry<String, Double> oddUnitEntry : ingredient.getOddUnits().entrySet()) {
                         totalIngredients.get(ingredientName).addOddUnits(oddUnitEntry.getValue(), oddUnitEntry.getKey());
                     }
-                } else {    
+                } else {
                     totalIngredients.put(ingredientName, ingredient);
                 }
             }

@@ -83,23 +83,33 @@ public class Ingredient{
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        String formattedQuantity = (quantity % 1 == 0) ? String.valueOf((int) quantity) : String.valueOf(quantity);
+public String toString() {
+    StringBuilder sb = new StringBuilder();
+    String formattedQuantity = (quantity % 1 == 0) ? String.valueOf((int) quantity) : String.valueOf(quantity);
 
-        sb.append(name).append(" ");
-        if (unit != null && isStandardUnit(unit)) {
-                sb.append(formattedQuantity).append(" ").append(unit);
-        }else{
-            sb.append(formattedQuantity);
-        }
+    sb.append(name).append(" ");
 
-        if(oddUnits != null){
-            for(Map.Entry<String, Double> entry : oddUnits.entrySet()){
+    // Αν υπάρχει standard unit και quantity > 0, εμφανίζουμε την ποσότητα και το unit
+    if (quantity > 0 && isStandardUnit(unit)) {
+        sb.append(formattedQuantity).append(" ").append(unit);
+    }
+
+    // Αν υπάρχει odd unit, το προσθέτουμε
+    if (oddUnits != null && !oddUnits.isEmpty()) {
+        // Ελέγχει αν η ποσότητα είναι 0 ή αν δεν υπάρχει standard unit και εκτυπώνει μόνο τα odd units
+        if (quantity == 0 || !isStandardUnit(unit)) {
+            for (Map.Entry<String, Double> entry : oddUnits.entrySet()) {
+                sb.append(entry.getValue().toString()).append(" ").append(entry.getKey());
+            }
+        } else {
+            // Εμφανίζει τα odd units κανονικά αν υπάρχει ήδη standard unit
+            for (Map.Entry<String, Double> entry : oddUnits.entrySet()) {
                 sb.append(" και ").append(entry.getValue().toString()).append(" ").append(entry.getKey());
             }
         }
-
-        return sb.toString();
     }
+
+    return sb.toString();
+}
+
 }
