@@ -12,7 +12,7 @@
 
 3. Build the project using Maven:
 
-    ```bash
+   ```bash
     mvn clean package
     ```
 
@@ -28,7 +28,7 @@
     ```
 Requires special files called .cook example below:
 
-    ```bash
+```bash
     Σπάστε τα @αυγά{2} σε ένα #μπλέντερ και χτυπήστε καλά.
 
     Προσθέστε το @γάλα{250%ml} και το @αλεύρι{125%gr}, και συνεχίστε το 
@@ -44,5 +44,5 @@ Requires special files called .cook example below:
 
     Σερβίρετε με την αγαπημένη σας επικάλυψη.
 
-    ```
+```
     
