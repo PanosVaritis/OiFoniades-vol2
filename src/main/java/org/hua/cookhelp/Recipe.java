@@ -97,13 +97,11 @@ public class Recipe {
     }
 
     private void extractCookingTools(String description) {
-        Pattern cookingToolPattern = Pattern.compile("#([^\\{\\s]+)(\\{[^\\}]*\\})?");
+        Pattern cookingToolPattern = Pattern.compile("#([α-ωΑ-Ωa-zA-Zά-ώ]+(?: [α-ωΑ-Ωa-zA-Zά-ώ]+)*)(?:\\{\\})?");
         Matcher matcher = cookingToolPattern.matcher(description);
     
         while (matcher.find()) {
-            String name = matcher.group(1);
-            CookingTool cookingTool = new CookingTool(name);
-            addCookingTool(cookingTool);
+            fixCookingTool(matcher.group());
         }
     }
     private void extractStep(String description) {
@@ -176,5 +174,23 @@ public class Recipe {
             counter ++;
         }
         return sb.toString();
+    }
+    
+    
+    private void fixCookingTool (String match){
+        
+        if (!(match.contains("{") && match.contains("}")))
+            match = match.split(" ")[0];
+        
+        match  = match.substring(1);
+        
+        if (match.contains("{}")){
+            match = match.replace("{}", " ");
+        }
+        
+        CookingTool cookingTool = new CookingTool(match);
+            addCookingTool(cookingTool);
+        
+        
     }
 }
