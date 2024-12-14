@@ -16,7 +16,7 @@ public class ShoppingList {
 
     public void calculateIngredients() {
         for (Recipe r : recipeList) {
-            for (Map.Entry<String, Ingredient> entry : r.getIngredients().entrySet()) {
+            for (Map.Entry<String, Ingredient> entry : r.getIngredientList().entrySet()) {
                 String ingredientName = entry.getKey();
                 Ingredient ingredient = entry.getValue();
                 if (totalIngredients.containsKey(ingredientName)) {

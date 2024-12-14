@@ -131,15 +131,15 @@ public class Recipe {
         return name;
     }
 
-    public Set<CookingTool> getCookingTools() {
+    public Set<CookingTool> getCookingToolList() {
         return Collections.unmodifiableSet(cookingToolList);
     }
 
-    public Map<String, Ingredient> getIngredients() {
+    public Map<String, Ingredient> getIngredientList() {
         return ingredientList;
     }
 
-    public List<Step> getTotalTime() {
+    public List<Step> getStepList() {
         return Collections.unmodifiableList(stepList);
     }
 
