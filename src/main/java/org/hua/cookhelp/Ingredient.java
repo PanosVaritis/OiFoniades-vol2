@@ -89,20 +89,16 @@ public String toString() {
 
     sb.append(name).append(" ");
 
-    // Αν υπάρχει standard unit και quantity > 0, εμφανίζουμε την ποσότητα και το unit
     if (quantity > 0 && isStandardUnit(unit)) {
         sb.append(formattedQuantity).append(" ").append(unit);
     }
 
-    // Αν υπάρχει odd unit, το προσθέτουμε
     if (oddUnits != null && !oddUnits.isEmpty()) {
-        // Ελέγχει αν η ποσότητα είναι 0 ή αν δεν υπάρχει standard unit και εκτυπώνει μόνο τα odd units
         if (quantity == 0 || !isStandardUnit(unit)) {
             for (Map.Entry<String, Double> entry : oddUnits.entrySet()) {
                 sb.append(entry.getValue().toString()).append(" ").append(entry.getKey());
             }
         } else {
-            // Εμφανίζει τα odd units κανονικά αν υπάρχει ήδη standard unit
             for (Map.Entry<String, Double> entry : oddUnits.entrySet()) {
                 sb.append(" και ").append(entry.getValue().toString()).append(" ").append(entry.getKey());
             }
