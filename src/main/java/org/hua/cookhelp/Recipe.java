@@ -82,6 +82,8 @@ public class Recipe {
                 } catch (NumberFormatException e) {
                     // Χειρισμός εξαίρεσης
                 }
+            }else{
+                quantity = 1;
             }
 
             Ingredient ingredient;
