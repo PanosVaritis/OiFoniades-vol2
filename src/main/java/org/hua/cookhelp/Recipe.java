@@ -80,12 +80,13 @@ public class Recipe {
                 try {
                     quantity = Double.parseDouble(quantityStr);
                 } catch (NumberFormatException e) {
-                    // Χειρισμός εξαίρεσης
+                    //Handle Exception
                 }
             }else{
                 quantity = 1;
             }
 
+            //if unit didnt match create Ingredient with no unit else create with unit
             Ingredient ingredient;
             if (unit == null || unit.isEmpty()) {
                 ingredient = new Ingredient(name, quantity);
@@ -119,7 +120,7 @@ public class Recipe {
                     Step step = new Step(s, timeDuration, timeUnit);
                     addStep(step);
                 } catch (NumberFormatException e) {
-                    // Χειρισμός εξαίρεσης
+                    //Handle Exception
                 }
             }else{
                 Step step = new Step(s);
@@ -145,6 +146,7 @@ public class Recipe {
         return Collections.unmodifiableList(stepList);
     }
 
+    //fixes multi worded CookingTools
     private void fixCookingTool (String match){
         if (!(match.contains("{") && match.contains("}")))
             match = match.split(" ")[0];

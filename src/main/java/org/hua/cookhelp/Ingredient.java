@@ -48,6 +48,7 @@ public class Ingredient{
     }
 
     public void addQuantity(double quantity, String unit) {
+        //if unit is standard add the quantity, else add it on the OddUnits map
         if (unit == null|| isStandardUnit(unit) || this.unit.equalsIgnoreCase(unit)) {
             this.quantity += quantity;
             if (unit != null ) {
@@ -58,17 +59,19 @@ public class Ingredient{
         }
     }
 
+    //if oddUnit is new add it to the map else merge it
     public void addOddUnits(double quantity, String unit){
         oddUnits.merge(unit.toLowerCase(), quantity, Double::sum);
     }
 
+    //checks whether the unit is standard or not
     public boolean isStandardUnit(String unit) {
         final Set<String> standardUnits = Set.of("ml","gr","");
         return standardUnits.contains(unit.toLowerCase());
     }
 
     
-
+    //converts measurements for liquids and solids if they are convertible
     public void convertMeasurements(){
         final Set<String> lUnits = Set.of("l", "litre", "λιτρα");
         final Set<String> kgUnits = Set.of("kg","kilograms", "κιλό");
@@ -83,29 +86,34 @@ public class Ingredient{
     }
 
     @Override
-public String toString() {
-    StringBuilder sb = new StringBuilder();
-    String formattedQuantity = (quantity % 1 == 0) ? String.valueOf((int) quantity) : String.valueOf(quantity);
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        //cuts the decimal part off if its not needed
+        String formattedQuantity = (quantity % 1 == 0) ? String.valueOf((int) quantity) : String.valueOf(quantity);
 
-    sb.append(name).append(" ");
-
-    if (quantity > 0 && isStandardUnit(unit)) {
-        sb.append(formattedQuantity).append(" ").append(unit);
-    }
-
-    if (oddUnits != null && !oddUnits.isEmpty()) {
-        if (quantity == 0 || !isStandardUnit(unit)) {
-            for (Map.Entry<String, Double> entry : oddUnits.entrySet()) {
-                sb.append(entry.getValue().toString()).append(" ").append(entry.getKey());
-            }
-        } else {
-            for (Map.Entry<String, Double> entry : oddUnits.entrySet()) {
-                sb.append(" και ").append(entry.getValue().toString()).append(" ").append(entry.getKey());
-            }
+        sb.append(name).append(" ");
+        
+        if (quantity > 0 && isStandardUnit(unit)) {
+            sb.append(formattedQuantity).append(" ").append(unit);
         }
-    }
+        
+        //if its the first do be printed doesnt add the "και" word
+        boolean firstOddUnitPrinted = false;
 
-    return sb.toString();
-}
+        if (oddUnits != null && !oddUnits.isEmpty()) {
+            for (Map.Entry<String, Double> entry : oddUnits.entrySet()) {
+                //checks whether it should put word "και" or not
+                if (!firstOddUnitPrinted && quantity == 0 && !isStandardUnit(entry.getKey())) {
+                    sb.append(entry.getValue().toString()).append(" ").append(entry.getKey());
+                    firstOddUnitPrinted = true;
+                } else {
+                    sb.append(" και ").append(entry.getValue().toString()).append(" ").append(entry.getKey());
+                }
+            }
+
+        }
+
+        return sb.toString();
+    }
 
 }

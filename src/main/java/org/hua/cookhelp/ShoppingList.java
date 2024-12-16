@@ -13,7 +13,7 @@ public class ShoppingList {
         recipeList.add(recipe);
     }
 
-
+    //loop over all Ingredients of each recipe if totalIngredients contains the key sum it else add it to the map
     public void calculateIngredients() {
         for (Recipe r : recipeList) {
             for (Map.Entry<String, Ingredient> entry : r.getIngredientList().entrySet()) {
@@ -21,6 +21,7 @@ public class ShoppingList {
                 Ingredient ingredient = entry.getValue();
                 if (totalIngredients.containsKey(ingredientName)) {
                     totalIngredients.get(ingredientName).addQuantity(ingredient.getQuantity(),ingredient.getUnit());
+                    //calculates each Ingredient oddUnit HashMap and merges if it exists
                     for (Map.Entry<String, Double> oddUnitEntry : ingredient.getOddUnits().entrySet()) {
                         totalIngredients.get(ingredientName).addOddUnits(oddUnitEntry.getValue(), oddUnitEntry.getKey());
                     }
