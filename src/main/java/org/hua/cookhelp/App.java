@@ -3,7 +3,7 @@ package org.hua.cookhelp;
 //
 //import java.io.BufferedReader;
 
-import parser.RecipeReader;
+import org.hua.cookhelp.parser.RecipeReader;
 
 //import java.io.FileReader;
 //import java.io.IOException;
