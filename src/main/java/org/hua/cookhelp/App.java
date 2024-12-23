@@ -3,6 +3,7 @@ package org.hua.cookhelp;
 //
 //import java.io.BufferedReader;
 
+import org.hua.cookhelp.gui.RecipePanel;
 import org.hua.cookhelp.parser.RecipeReader;
 
 //import java.io.FileReader;
@@ -20,14 +21,10 @@ public class App {
 
     public static void main(String[] args) {
         if (args.length == 0){
-            throw new IllegalArgumentException ("Command line arguments are necessary");
-        }
-        if (args[0].trim().equals("-list")){
-            
-            if (args.length == 2)
-                throw new IllegalArgumentException ("To the run the -list you must provide more that one files");
-
-
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                new RecipePanel();
+            });
+        }else if (args[0].trim().equals("-list")){
             for (int i = 1;i < args.length;i++){
                 if (!(args[i].endsWith(".cook")))
                     throw new IllegalArgumentException ("The suffix of all the command line parameters must be the same!!");

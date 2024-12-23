@@ -9,6 +9,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.ListSelectionModel;
@@ -20,7 +21,7 @@ import org.hua.cookhelp.parser.RecipeReader;
 public class RecipePanel extends JFrame{
     private DefaultListModel<String> fileListModel;
     private JList<String> fileList;
-    private JLabel contentLabel;
+    private JLabel label;
 
     public RecipePanel(){
         setTitle("Cook Helper");
@@ -32,61 +33,84 @@ public class RecipePanel extends JFrame{
         fileList = new JList<>(fileListModel);
         fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        contentLabel = new JLabel("Select a Recipe", SwingConstants.CENTER);
-        contentLabel.setVerticalAlignment(SwingConstants.TOP);
+        label = new JLabel("Select a Recipe", SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.TOP);
 
         fileList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 String selectedFileName = fileList.getSelectedValue();
                 if (selectedFileName != null) {
-                    displayFileContent(selectedFileName);
+                    displayRecipe(selectedFileName);
                 }
             }
         });
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,new JScrollPane(fileList), new JScrollPane(contentLabel));
+        // right panel
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.add(label, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel();
+
+        // execute recipe button
+        ExecuteRecipeButton executeRecipeButton = new ExecuteRecipeButton("Execute");
+        executeRecipeButton.setVisible(true);
+
+        // add file button
+        JButton addFileButton = new JButton("Add File");
+        addFileButton.addActionListener(e -> addCookFile());
+
+        // shopping list button
+        ShoppingListButton shoppingListButton = new ShoppingListButton("Shopping List",fileListModel);
+        shoppingListButton.setVisible(true);
+
+        buttonPanel.add(executeRecipeButton);
+        buttonPanel.add(shoppingListButton);
+        buttonPanel.add(addFileButton);
+        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        // left scroll pane
+        JScrollPane leftScrollPane = new JScrollPane(fileList);
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,leftScrollPane,rightPanel);
         splitPane.setDividerLocation(200);
         splitPane.setOneTouchExpandable(true);
 
+        rightPanel.add(label, BorderLayout.CENTER);
         add(splitPane, BorderLayout.CENTER);
-
-        JButton addFileButton = new JButton("Add File");
-        addFileButton.addActionListener(e -> addFile());
-        add(addFileButton, BorderLayout.SOUTH);
 
         setVisible(true);
     }
 
-    private void addFile() {
+    private void addCookFile() {
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            fileListModel.addElement(selectedFile.getName());
+            fileListModel.addElement(selectedFile.getAbsolutePath());
         }
     }
 
-    public Recipe showCookFile(String fileName){
-        if (fileName != null) {
+    public Recipe addRecipe(String filePath){
+        if (filePath != null) {
             RecipeReader recipeReader = new RecipeReader();
-            String fileContent = recipeReader.readCookFile(fileName);
-            return new Recipe(fileName, fileContent);
+            String fileContent = recipeReader.readCookFile(filePath);
+            return new Recipe(filePath, fileContent);
         } else {
             System.err.println("File name is not set.");
             return null;
         }
     }
 
-    private void displayFileContent(String filePath) {
-        Recipe cookFile = showCookFile(filePath);
+    private void displayRecipe(String filePath) {
+        Recipe cookFile = addRecipe(filePath);
         if (cookFile != null) {
             String formattedRecipe = cookFile.toString().replace("\n", "<br>");
-            contentLabel.setText("<html><body style='padding:10px;'>" +
+            label.setText("<html><body style='padding:10px;'>" +
                     "Recipe: <b>" + filePath + "</b><br><br>" +
                     formattedRecipe +
                     "</body></html>");
         } else {
-            contentLabel.setText("<html><body style='padding:10px;'>" +
+            label.setText("<html><body style='padding:10px;'>" +
                     "Could not load recipe: <b>" + filePath + "</b>" +
                     "</body></html>");
         }
