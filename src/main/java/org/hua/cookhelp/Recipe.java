@@ -116,7 +116,7 @@ public class Recipe {
                 String timeUnit = matcher.group(2);
             
                 try {
-                    double timeDuration = Double.parseDouble(timeStr);
+                    long timeDuration = Long.parseLong(timeStr);
                     Step step = new Step(s, timeDuration, timeUnit);
                     addStep(step);
                 } catch (NumberFormatException e) {

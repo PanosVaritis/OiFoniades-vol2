@@ -46,7 +46,7 @@ public class ShoppingListButton extends JButton{
 
         StringBuilder contentBuilder = new StringBuilder();
         if (shoppingList != null) {
-            contentBuilder.append("<html><body style='padding:10px;'>");
+            contentBuilder.append("<html><body style='padding:10px; font-size:12px;'>");
             contentBuilder.append("Recipes: <b><br>");
             for (int i = 0; i < fileListModel.size(); i++) {
                 String recipeName = fileListModel.get(i);
@@ -59,7 +59,7 @@ public class ShoppingListButton extends JButton{
             shoppingListLabel.setText(contentBuilder.toString());
 
         } else {
-            shoppingListLabel.setText("<html><body style='padding:10px;'>" +
+            shoppingListLabel.setText("<html><body style='padding:10px; font-size:12px;'>" +
                     "Could not load the shopping list." +
                     "</body></html>");
         }

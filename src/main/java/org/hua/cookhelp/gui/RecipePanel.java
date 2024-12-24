@@ -22,10 +22,11 @@ public class RecipePanel extends JFrame{
     private DefaultListModel<String> fileListModel;
     private JList<String> fileList;
     private JLabel label;
+    private JPanel executeRecipeButtonPanel;
 
     public RecipePanel(){
         setTitle("Cook Helper");
-        setSize(600, 400);
+        setSize(900, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -36,11 +37,14 @@ public class RecipePanel extends JFrame{
         label = new JLabel("Select a Recipe", SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.TOP);
 
+        executeRecipeButtonPanel = new JPanel();
+
         fileList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 String selectedFileName = fileList.getSelectedValue();
                 if (selectedFileName != null) {
                     displayRecipe(selectedFileName);
+                    displayExecuteButton(selectedFileName);
                 }
             }
         });
@@ -51,10 +55,6 @@ public class RecipePanel extends JFrame{
 
         JPanel buttonPanel = new JPanel();
 
-        // execute recipe button
-        ExecuteRecipeButton executeRecipeButton = new ExecuteRecipeButton("Execute");
-        executeRecipeButton.setVisible(true);
-
         // add file button
         JButton addFileButton = new JButton("Add File");
         addFileButton.addActionListener(e -> addCookFile());
@@ -63,10 +63,11 @@ public class RecipePanel extends JFrame{
         ShoppingListButton shoppingListButton = new ShoppingListButton("Shopping List",fileListModel);
         shoppingListButton.setVisible(true);
 
-        buttonPanel.add(executeRecipeButton);
         buttonPanel.add(shoppingListButton);
         buttonPanel.add(addFileButton);
         rightPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        rightPanel.add(executeRecipeButtonPanel, BorderLayout.NORTH);
 
         // left scroll pane
         JScrollPane leftScrollPane = new JScrollPane(fileList);
@@ -83,10 +84,28 @@ public class RecipePanel extends JFrame{
 
     private void addCookFile() {
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+
+            //accept files that end with .cook     
+            @Override
+            public boolean accept(File file) {
+                return file.isDirectory() || file.getName().endsWith(".cook");
+            }
+
+            @Override
+            public String getDescription() {
+                return "Cook Files (*.cook)";
+            }
+        });
+
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            fileListModel.addElement(selectedFile.getAbsolutePath());
+            if (selectedFile.getName().toLowerCase().endsWith(".cook")) {
+                fileListModel.addElement(selectedFile.getAbsolutePath());
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this,"Invalid file type. Please select a .cook file.","Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -105,14 +124,25 @@ public class RecipePanel extends JFrame{
         Recipe cookFile = addRecipe(filePath);
         if (cookFile != null) {
             String formattedRecipe = cookFile.toString().replace("\n", "<br>");
-            label.setText("<html><body style='padding:10px;'>" +
+            label.setText("<html><body style='padding:10px; font-size:12px;'>" +
                     "Recipe: <b>" + filePath + "</b><br><br>" +
                     formattedRecipe +
-                    "</body></html>");
+                    "</body></html>");        
         } else {
-            label.setText("<html><body style='padding:10px;'>" +
+            label.setText("<html><body style='padding:10px font-size:12px;'>" +
                     "Could not load recipe: <b>" + filePath + "</b>" +
                     "</body></html>");
         }
+    }
+
+    private void displayExecuteButton(String selectedFileName) {
+        executeRecipeButtonPanel.removeAll();
+
+        ExecuteRecipeButton executeRecipeButton = new ExecuteRecipeButton("Execute", selectedFileName);
+        executeRecipeButton.setVisible(true);
+        executeRecipeButtonPanel.add(executeRecipeButton);
+
+        executeRecipeButtonPanel.revalidate();
+        executeRecipeButtonPanel.repaint();
     }
 }
