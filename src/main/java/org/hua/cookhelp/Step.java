@@ -1,5 +1,7 @@
 package org.hua.cookhelp;
 
+import java.util.Set;
+
 import javax.swing.Timer;
 
 import gr.hua.dit.oop2.countdown.Countdown;
@@ -26,8 +28,21 @@ public class Step {
         this.timeUnit = null;
     }
 
+    public void convertToSeconds(){
+        final Set<String> minuteUnits = Set.of("min","mins","minute","minutes","minute/minutes:","λεπτά","λεπτα","λεπτό","λεπτο","λ");
+        final Set<String> hourUnits = Set.of("h","hr","hrs","hour","hours","hour/hours","ώρες","ωρες","ώρα","ωρα","ω");
+        if(minuteUnits.contains(timeUnit.toLowerCase())){
+            setTimeUnit("δευτερόλεπτα");
+            setTimeDuration(timeDuration * 60);
+        }else if (hourUnits.contains(timeUnit.toLowerCase())){
+            setTimeUnit("δευτερόλεπτα");
+            setTimeDuration(timeDuration * 3600);
+        }
+    }
+
     private void addCountdown(){
         if (timeDuration > 0 || timeUnit != null ){
+            convertToSeconds();
             countdown = CountdownFactory.countdown(description,timeDuration);
         }else {
             System.out.println("Invalid time duration. Countdown not added.");
@@ -72,6 +87,14 @@ public class Step {
 
     public String getTimeUnit() {
         return timeUnit;
+    }
+
+    public void setTimeUnit(String timeUnit) {
+        this.timeUnit = timeUnit;
+    }
+
+    public void setTimeDuration(long timeDuration) {
+        this.timeDuration = timeDuration;
     }
 
     public String getDescription(){
