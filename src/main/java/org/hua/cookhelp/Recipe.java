@@ -56,7 +56,7 @@ public class Recipe {
             double timeDuration = s.getTimeDuration();
             totalTimeDuration += timeDuration;
         }        
-        return totalTimeDuration;
+        return totalTimeDuration / 60;
     }
 
     private void parseRecipe(String description) {
@@ -64,29 +64,29 @@ public class Recipe {
         extractCookingTools(description);
         extractStep(description);
     }
-
+   
 
     private void extractIngredients(String description) {
-        Pattern ingredientPattern = Pattern.compile("@([^\\\\{]+)(\\{([^%\\}]+)%?([^\\}]*)\\})?");
+        Pattern ingredientPattern = Pattern.compile("@([α-ωΑ-Ωa-zA-Zά-ώ]+(?: [α-ωΑ-Ωa-zA-Zά-ώ]+)?)(?:\\{([^%\\}]+)%?([^\\}]*)\\})?");
         Matcher matcher = ingredientPattern.matcher(description);
-
+    
         while (matcher.find()) {
-            String name = matcher.group(1);
-            String quantityStr = matcher.group(3);
-            String unit = matcher.group(4);
-
-            double quantity = 0;
+            String name = matcher.group(1).trim();
+            String quantityStr = matcher.group(2);
+            String unit = matcher.group(3);
+    
+            // Ensure only the intended ingredient name is processed
+            name = name.split(" ")[0];
+    
+            double quantity = 1; // Default quantity
             if (quantityStr != null) {
                 try {
                     quantity = Double.parseDouble(quantityStr);
                 } catch (NumberFormatException e) {
-                    //Handle Exception
+                    quantity = 1;
                 }
-            }else{
-                quantity = 1;
             }
-
-            //if unit didnt match create Ingredient with no unit else create with unit
+    
             Ingredient ingredient;
             if (unit == null || unit.isEmpty()) {
                 ingredient = new Ingredient(name, quantity);
@@ -96,6 +96,8 @@ public class Recipe {
             addIngredient(ingredient);
         }
     }
+    
+    
 
     private void extractCookingTools(String description) {
         Pattern cookingToolPattern = Pattern.compile("#([α-ωΑ-Ωa-zA-Zά-ώ]+(?: [α-ωΑ-Ωa-zA-Zά-ώ]+)*)(?:\\{\\})?");
@@ -105,6 +107,7 @@ public class Recipe {
             fixCookingTool(matcher.group());
         }
     }
+    
     private void extractStep(String description) {
         String[] steps = description.split("\\n\\s*\\n");
         for(String s : steps ){

@@ -44,16 +44,8 @@ public class ExecuteRecipeButton extends JButton {
 
         CountdownButton countdownButton = new CountdownButton("Start", stepList, stepLabel,timeLabel,recipeStepsWindow);
 
-        JButton startButton = new JButton("Resume Countdown");
-        startButton.addActionListener(e -> countdownButton.startCountdown());
-    
-        JButton stopButton = new JButton("Stop Countdown");
-        stopButton.addActionListener(e -> countdownButton.stopCountdown());
-
         JPanel buttonPanel = new JPanel(new FlowLayout(BoxLayout.Y_AXIS));
-
-        buttonPanel.add(startButton);
-        buttonPanel.add(stopButton);
+        
         buttonPanel.add(countdownButton);
         
         recipeStepsWindow.setLayout(new BoxLayout(recipeStepsWindow.getContentPane(),BoxLayout.Y_AXIS));

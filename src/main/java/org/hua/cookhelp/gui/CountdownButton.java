@@ -67,24 +67,6 @@ public class CountdownButton extends JButton {
        }
     }
 
-    public void stopCountdown() {
-        if (currentStep != null) {
-            currentStep.stopCountdown();
-            if (countdownTimer != null) {
-                countdownTimer.stop();
-            }
-        }
-    }
-
-    public void startCountdown() {
-        if (currentStep != null) {
-            currentStep.startCountdown();
-            if (countdownTimer != null) {
-                countdownTimer.start();
-            }
-        }
-    }
-
     private Notifier getCountdownNotifier() {
         return new CountdownNotifier();
     }

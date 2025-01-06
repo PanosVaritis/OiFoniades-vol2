@@ -3,6 +3,8 @@ package org.hua.cookhelp;
 //
 //import java.io.BufferedReader;
 
+import static java.lang.System.exit;
+
 import org.hua.cookhelp.gui.RecipePanel;
 import org.hua.cookhelp.parser.RecipeReader;
 
@@ -41,6 +43,7 @@ public class App {
 
             shoppingList.calculateIngredients();
             System.out.println(shoppingList);
+            exit(0);
 
         }else if (args.length == 1 && args[0].endsWith(".cook")){
 
@@ -48,6 +51,7 @@ public class App {
             String fileContent = recipeReader.readCookFile(args[0]);
             Recipe recipe = new Recipe(args[0],fileContent);
             System.out.println(recipe);
+            exit(0);
 
         }else if (args.length > 1 && args[0].endsWith(".cook")){
             throw new IllegalArgumentException ("Too many arguments");
