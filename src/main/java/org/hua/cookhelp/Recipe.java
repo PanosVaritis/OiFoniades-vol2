@@ -142,7 +142,7 @@ public class Recipe {
     }
 
     public Map<String, Ingredient> getIngredientList() {
-        return ingredientList;
+        return new HashMap<>(ingredientList);
     }
 
     public List<Step> getStepList() {

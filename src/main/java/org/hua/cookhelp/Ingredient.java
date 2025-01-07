@@ -36,7 +36,7 @@ public class Ingredient{
     }
 
     public Map<String, Double> getOddUnits() {
-        return oddUnits;
+        return new HashMap<> (oddUnits);
     }
 
     public void setQuantity(double quantity){

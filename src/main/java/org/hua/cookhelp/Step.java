@@ -2,14 +2,11 @@ package org.hua.cookhelp;
 
 import java.util.Set;
 
-import javax.swing.Timer;
-
 import gr.hua.dit.oop2.countdown.Countdown;
 import gr.hua.dit.oop2.countdown.CountdownFactory;
 import gr.hua.dit.oop2.countdown.Notifier;
 
 public class Step {
-    private Timer countdownTimer;
     private Countdown countdown;
     private long timeDuration;
     private String timeUnit;
@@ -52,6 +49,8 @@ public class Step {
     public void addNotifier(Notifier notifier){
         if (countdown != null) {
             countdown.addNotifier(notifier);
+        }else {
+            System.out.println("No countdown has been added to this step.");
         }
     }
     public void startCountdown() {
@@ -100,14 +99,6 @@ public class Step {
     public String getDescription(){
         return description;
     }
-
-
-    // private class CountdownNotifier implements Notifier {
-    //     @Override
-    //     public void finished(Countdown countdown) {
-    //         System.out.println("Countdown " + countdown.getName() + " finished!");
-    //     }
-    // }
 
     @Override
     public String toString(){
