@@ -15,18 +15,23 @@
    ```bash
     mvn clean package
     ```
+# CLI
+   Show recipe:
 
-4. Show recipe:
-
-    ```bash
+   ```bash
     java -jar target/cookHelp-1.0-SNAPSHOT.jar [recipe-file.cook]
-    ```
-4. Show Ingredient Shopping list(multiple arguements are required):
-
-    ```bash
+   ```
+   Show Ingredient Shopping list(one argument is enough):
+ 
+   ```bash
     java -jar target/cookHelp-1.0-SNAPSHOT.jar -list [recipe-file.cook] [recipe-file2.cook] ....
-    ```
-Requires special files called .cook example below:
+   ```
+# GUI
+   ```bash
+    java -jar target/cookHelp-1.0-SNAPSHOT.jar
+   ```
+
+## Requires special files called .cook example below:
 
 ```bash
     Σπάστε τα @αυγά{2} σε ένα #μπλέντερ και χτυπήστε καλά.
