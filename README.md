@@ -1,3 +1,4 @@
+# CookHelp
 1. Clone the repository to your local machine:
 
     ```bash
@@ -15,7 +16,7 @@
    ```bash
     mvn clean package
     ```
-# CLI
+## CLI
    Show recipe:
 
    ```bash
@@ -26,7 +27,7 @@
    ```bash
     java -jar target/cookHelp-1.0-SNAPSHOT.jar -list [recipe-file.cook] [recipe-file2.cook] ....
    ```
-# GUI
+## GUI
    ```bash
     java -jar target/cookHelp-1.0-SNAPSHOT.jar
    ```
